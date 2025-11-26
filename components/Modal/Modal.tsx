@@ -49,7 +49,6 @@ export default function Modal({ children, onClose }: ModalProps) {
     modalRoot,
   );
 
-  // Функцію виніс сюди (hoisting дозволяє, або можна визначити до return)
   function handleBackdropClick(e: React.MouseEvent<HTMLDivElement>) {
     if (e.target === e.currentTarget) onClose();
   }
