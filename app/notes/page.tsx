@@ -68,7 +68,7 @@ export default function App() {
       </header>
 
       {isLoading && <Loader />}
-          isError && <ErrorMessage />
+      {isError && <ErrorMessage />}
       {!isLoading && !isError && showList && <NoteList notes={notes} />}
       {isFetching && !isLoading && <Loader />}
 
