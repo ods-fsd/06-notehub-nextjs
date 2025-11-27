@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 import css from './NotesPage.module.css';
 import SearchBox from '@/components/SearchBox/SearchBox';
@@ -13,7 +13,6 @@ import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import { fetchNotes } from '@/lib/api';
 import type { FetchNotesResponse } from '@/lib/api';
 
-
 const PER_PAGE = 12;
 
 export default function App() {
@@ -21,6 +20,7 @@ export default function App() {
   const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [debouncedSearch] = useDebounce(search, 500);
+  
   const { data, isLoading, isError, isFetching } =
     useQuery<FetchNotesResponse>({
       queryKey: ['notes', page, debouncedSearch],
@@ -30,10 +30,12 @@ export default function App() {
           perPage: PER_PAGE,
           search: debouncedSearch || undefined,
         }),
+      placeholderData: keepPreviousData, 
     });
 
   const notes = data?.notes ?? [];
   const totalPages = data?.totalPages ?? 0;
+  
   const handleSearchChange = (value: string) => {
     setSearch(value);
     setPage(1); 

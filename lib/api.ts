@@ -31,10 +31,6 @@ export interface CreateNotePayload {
   tag: NoteTag;
 }
 
-export interface DeleteNoteResponse {
-  note: Note;
-}
-
 export async function fetchNotes(
   params: FetchNotesParams,
 ): Promise<FetchNotesResponse> {
@@ -54,8 +50,8 @@ export async function createNote(
   return data;
 }
 
-export async function deleteNote(id: string): Promise<DeleteNoteResponse> {
-  const { data } = await api.delete<DeleteNoteResponse>(`/notes/${id}`);
+export async function deleteNote(id: string): Promise<Note> {
+  const { data } = await api.delete<Note>(`/notes/${id}`);
   return data;
 }
 
@@ -63,8 +59,3 @@ export async function fetchNoteById(id: string): Promise<Note> {
   const { data } = await api.get<Note>(`/notes/${id}`);
   return data;
 }
-
-export const getSingleNote = async (id: string) => {
-  const res = await axios.get<Note>(`/notes/${id}`);
-  return res.data;
-};
